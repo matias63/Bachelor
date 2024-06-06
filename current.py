@@ -57,7 +57,6 @@ def find_item_length():
             print("item name:",entry)
             print("item length:",longest_name)
     print(f"longest name consists of:{longest_name} symbols")
-# find_item_length()
 
 def find_item_length_mean():
     path = f"search_index.json"
@@ -71,14 +70,10 @@ def find_item_length_mean():
     average_length= total_symbols/items_on_list
     print("data set sample size:", items_on_list )
     print("average symbol lenth per item:", average_length )    
-# find_item_length_mean()
 
 
 cache = {}
-# start_time = time.time()
-# cache.fromkeys(range(2000000))
-# print("--- %s seconds ---" % (time.time() - start_time))
-# next_card_id = 0
+
 
 #open bulk file - not needed anymore
 def load_bulk():
@@ -90,58 +85,15 @@ def load_bulk():
     return data
 
 
-def find_curr_id():
-    rel_path = f"name_database"
-    abs_file_path = os.path.join(script_dir, rel_path + "/*")
-    list_of_files = glob.glob(abs_file_path)
-    # latest_file = max(list_of_files, key=os.path.getctime)
-    return len(list_of_files)
 
-# next_card_id = find_curr_id()+1
-# print(next_card_id)
-
-
-
-def make_search_index():
-    data = load_bulk()
-    rel_path = f"search_index.json"
-    abs_file_path = os.path.join(script_dir, rel_path)
-    index_dict = {}
-    for i in data:
-        name = i["name"].replace('//','--').replace('"','').replace('?','').replace('!','')
-        index_dict[name] = ""
-    with open(abs_file_path, 'w', encoding='utf-8', errors='ignore') as file:
-        json.dump(index_dict,file)
-# make_search_index()
-
-
-    # dont want to try  
-# import math
-# def make_search_index_smaller():
-#     rel_path = f"search_index.json"
-#     abs_file_path = os.path.join(script_dir, rel_path)
-#     with open(abs_file_path, 'r', encoding='utf-8', errors='ignore') as file:
-#         data = json.load(file)
-#         len_data = len(data)
-
-#     dict = {}
-#     for i in range(len_data,step= math.ceil(len_data/10)):
-#         for j in range(math.ceil(len_data/10)):
-#             dict[j]
-#         with open(abs_file_path, 'w', encoding='utf-8', errors='ignore') as file:
-#         json.dump(index_dict,file)
-    # for i in range(len(data.items()))
-# make_search_index_smaller()
 
 
 
 # BUILD single card database - EVERYTHING INCLUDED -  {everything} line 1
 def build_SDB():
-    
     data = load_bulk()
     for i in data:   
-        
-        name, info = f'{i["name"]}'.replace('//','--').replace('"','').replace('?','').replace('!',''), f'{i}'
+        name = f'{i["name"]}'.replace('//','--').replace('"','').replace('?','').replace('!',''), f'{i}'
         rel_path = f"name_database/{name}.json"
         abs_file_path = os.path.join(script_dir, rel_path)
         with open(abs_file_path, 'w') as library:
@@ -150,7 +102,7 @@ def build_SDB():
             json.dump(i,library, indent = 4)
 
 
-
+# Knuth-Miller-Prath algortihm helper function
 def computeLPSArray(pat, M, lps):
     len = 0 # length of the previous longest prefix suffix
  
@@ -174,6 +126,7 @@ def computeLPSArray(pat, M, lps):
                 i += 1
  
 
+# Knuth-Miller-Prath algortihm (KMP) moded by me
 def KMP_mod(pat, txt,M,lps):
     N = len(txt)
     j = 0 # index for pat[]
@@ -194,6 +147,7 @@ def KMP_mod(pat, txt,M,lps):
                 i += 1
     return False
 
+# Knuth-Miller-Prath algortihm (KMP)
 def KMPSearch(pat, txt):
     M = len(pat)
     N = len(txt)
@@ -227,33 +181,7 @@ def KMPSearch(pat, txt):
 
 
 
-
-# def preprocess(substring):
-#     lookup_table = {}  # Lookup table for characters in the substring
-#     for i, char in enumerate(substring):
-#         lookup_table[char] = i
-#     return lookup_table
-# def Boyer_moore(file_name, substring):
-#     lookup_table = preprocess(substring)
-#     if not substring:
-#         return False  # If substring is empty, return False
-    
-#     m = len(substring)
-#     n = len(file_name)
-
-#     i = 0
-#     while i <= n - m:
-#         j = 0
-#         while j < m and file_name[i + j] == substring[j]:
-#             j += 1
-#         if j == m:
-#             return True  # Substring found
-#         else:
-#             i += 1
-
-#     return False  # Substring not found
-
-
+# Bad character Heuristic for Boyer-Moore algorithm
 NO_OF_CHARS = 256
 def badCharHeuristic(string, size):
     badChar = [-1]*NO_OF_CHARS
@@ -285,9 +213,6 @@ def Boyer_moore(txt, pat):
     else:
         return False
 
-# Python3 program for Boyer Moore Algorithm with 
-# Good Suffix heuristic to find pattern in 
-# given text string
 
 # preprocessing for strong good suffix rule
 def preprocess_strong_suffix(shift, bpos, pat, m):
@@ -414,9 +339,6 @@ def qsearch(pstr, text):
             tx += TDl[ord(text[next_index])]  # shift to next text location
         else:
             break
-
-
-
     return False  # no substring found
 
 
@@ -438,21 +360,8 @@ def build_TDl(pstr):
 
     for i, char in enumerate(pstr):
         TDl[ord(char)] = Plen - i
-
     return TDl
 
-# Example usage:
-# pattern = "example"
-# text = "this is an example text"
-# result = qsearch(pattern, text)
-# print("Substring found at index:", result)
-
-
-# def Quick_search(pattern,text):
-#     while 
-
-# global local_cache
-# local_cache ={}
 
 # fetch images helper function - Thread_search
 def fetch_pics(url, images):
@@ -466,8 +375,6 @@ def saver(image:Image,search, j,rel_path):
     image.save(os.path.join(rel_path,f"{search}_cards_{j}.jpeg"),"JPEG")
     
 
-def cache_len():
-    print(len(cache))
 
 
 # Search for id
@@ -620,6 +527,84 @@ def image_processing(local_cache,search):
     except:
         return "error"
     
+  
+    
+                
+
+
+# Create new card in name_database (some features left out)
+# Replaces the original so also updates. All data viewed is downloaded images, so wont disturb a search
+# GUIDE:
+# create name:EXAMPLE_NAME, Attribute_1:Parameter_1 (and so on)
+def create(param):
+    # imput manipulator and extract the name
+    card ={}
+    pair = param.split(", ")
+    for p in pair:
+        key, value = p.split(":")
+        card[key] = value
+    n = ""
+    for i in card:
+        if i == "name":
+            n = card["name"]
+    n = n.title()
+    # put in SDB
+    rel_path = f"name_database"
+    with open(script_dir+"\\"+rel_path+"\\"+n+".json", 'w') as library:
+        json.dump(card,library, indent = 4)
+    print("created card:", n)
+    return n
+  
+
+# deletes a card if possible or else tells it doesnt exist
+def delete(card_name: str):
+    try:
+        rel_path = f"name_database/{card_name}.json"
+        abs_file_path = os.path.join(script_dir, rel_path)
+        # Delete card
+        os.remove(abs_file_path)    
+        return card_name +" is removed from SDB"
+    except: 
+        return card_name +" Doesn't exist"
+
+
+
+
+
+
+# OLD STUFF NOT USED ANYMORE 
+
+
+
+# OLD STUFF FOR OLD V3 DATABASE 
+def find_curr_id():
+    rel_path = f"name_database"
+    abs_file_path = os.path.join(script_dir, rel_path + "/*")
+    list_of_files = glob.glob(abs_file_path)
+    # latest_file = max(list_of_files, key=os.path.getctime)
+    return len(list_of_files)
+
+
+# OLD STUFF FOR V3 DATABASE 
+def make_search_index():
+    data = load_bulk()
+    rel_path = f"search_index.json"
+    abs_file_path = os.path.join(script_dir, rel_path)
+    index_dict = {}
+    for i in data:
+        name = i["name"].replace('//','--').replace('"','').replace('?','').replace('!','')
+        index_dict[name] = ""
+    with open(abs_file_path, 'w', encoding='utf-8', errors='ignore') as file:
+        json.dump(index_dict,file)
+# make_search_index()
+
+
+# UN-USED in new setup
+def cache_len():
+    print(len(cache))
+
+
+# OLD STUFF FOR PROTOTYPE DATABASE - With colored schemas
 # Search for id
 # def search_id(entry,local_cache,abs_file_path):    
      
@@ -730,7 +715,16 @@ def image_processing(local_cache,search):
         
 
 
+      
 
+# UN-USED in new setup
+def update():
+    update_card = delete()
+    create(update_card)
+
+
+
+# UN-Used in new setup
 def refill_cache(data):
     print("refill cache")
     for color_name in data["colors"]:
@@ -750,11 +744,23 @@ def refill_cache(data):
                         except: 
                             continue
     print("caching done")
-                    
-  
-    
+              
 
-# helped out version (format = [dict,dict,dict, ....] with indentation)
+# UN-USED in new setup
+# def concurrent_update():
+#     id,name,card = search_id()
+#     rel_path = f"single_card_library/{id}.json"
+#     abs_file_path = os.path.join(script_dir, rel_path)
+
+#     print(os.stat(abs_file_path))
+#     # dt = datetime.datetime.fromtimestamp(p.stat().st_ctime)
+#     # create(id)
+#     # update_card = delete()
+#     # print(d)
+
+
+#UN-USED
+# helped out version (format = [dict,dict,dict, ....] with indentation)  
 def build_colour_dbs():
     matching_cards = []
 
@@ -797,74 +803,14 @@ def build_colour_dbs():
     print(f"Succesfully build {colour} table")
 
 
-                
-
-
-# Create new card in name_database (some features left out)
-# Replaces the original so also updates. All data viewed is downloaded images, so wont disturb a search
-# GUIDE:
-# create name:EXAMPLE_NAME, Attribute_1:Parameter_1 (and so on)
-def create(param):
-    # next_card_id + 1
-    card ={}
-    pair = param.split(", ")
-    for p in pair:
-        key, value = p.split(":")
-        card[key] = value
-    n = ""
-    for i in card:
-        if i == "name":
-            n = card["name"]
-    n = n.title()
-    # put in SDB
-    rel_path = f"name_database"
-    with open(script_dir+"\\"+rel_path+"\\"+n+".json", 'w') as library:
-        json.dump(card,library, indent = 4)
-    print("created card:", n)
-    return n
-
-        
-
-
-def delete(card_name: str):
-    try:
-        rel_path = f"name_database/{card_name}.json"
-        abs_file_path = os.path.join(script_dir, rel_path)
-        # Delete card
-        os.remove(abs_file_path)
-        return card_name +" is removed from SDB"
-    except: 
-        return card_name +" Doesn't exist"
-
-# def update():
-#     update_card = delete()
-#     create(update_card)
-
-
-
-# def concurrent_update():
-
-#     id,name,card = search_id()
-#     rel_path = f"single_card_library/{id}.json"
-#     abs_file_path = os.path.join(script_dir, rel_path)
-
-#     print(os.stat(abs_file_path))
-#     # dt = datetime.datetime.fromtimestamp(p.stat().st_ctime)
-#     # create(id)
-#     # update_card = delete()
-#     # print(d)
-
-
     
-# un-tested
+# un-tested - UN-USED
 def clean():
-
     # remove SDB, recreate and populate
     path = './single_card_database'
     shutil.rmtree(path)
     os.mkdir(path)
     build_SDB()
-
     # remove red.json,create and populate 
     path = './red.json'
     os.remove(path)
@@ -874,21 +820,12 @@ def clean():
     
 
 
-# -- UNTESTED --
-# clean()
-
-# -- OLD --
-# build_R_DB_original_modified_07032024()
-# build_1000_lib()
-# build_R_DB_original_modified_07032024()
-# search()
 
 
+
+
+# OLD KEYBOARD  UI
 # def main():
-# next_id = find_curr_id()
-
-# print(next_id)
-
     # print("q = quit")
     # print("+ = create")
     # print("- = delete")
@@ -943,41 +880,6 @@ def clean():
 
 
 
-# TEST SPEED OF SEARCH !!!!!!!!!!!!!!!!
-# def search_card_by_id(card_id):
-#     start_time = time.time()
-#     script_dir = os.path.dirname(os.path.abspath(__file__))
-#     rel_path = "black.json"
-#     abs_file_path = os.path.join(script_dir, rel_path)
-    
-#     with open(abs_file_path, 'r') as library:
-#         data = json.load(library)
 
-#     for card_info in data:
-#         if card_info['id'] == card_id:
-#             print("--- %s seconds ---" % (time.time() - start_time))
-            
-#             return card_info
-
-#     return None
-
-# # Test the function
-# card_id = input("Enter the ID of the card you want to search for: ")
-# card = search_card_by_id(card_id)
-# if card:
-#     print("Card found:")
-#     # print(json.dumps(card, indent=4))  # Print the card object with pretty formatting
-# else:
-#     print(f"Card with ID '{card_id}' not found.")
-
-# print(card)
-
-
-
-
-
-
-
-# thread_search(input("Search: ").strip())
-# search_id("red")
-# build_SDB()
+# find_item_length_mean()
+# find_item_length()
