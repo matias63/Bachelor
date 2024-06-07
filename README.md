@@ -1,5 +1,8 @@
 # Bachelor project READ-ME 
 
+### CLONE LIBRARY ###
+-   git clone https://github.com/matias63/Bachelor
+
 
 ### INSTALL packages ###
 Install by running
@@ -31,7 +34,7 @@ This also shows info about the average text length of the database elements
 The back-end logs lock information and client actions
 Open Back-end (server):
     python3 ./backend.py
-Open Front-end (client):
+Open Front-end (client)
     python3 ./client.py
 
 
