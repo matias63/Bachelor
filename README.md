@@ -6,17 +6,17 @@
 
 ### INSTALL packages ###
 - Install by running
-    pip install json
-    pip install pathlib
-    pip install re
-    pip install glob
-    pip install shutil
-    pip install numpy
-    pip install time
-    pip install datetime 
-    pip install requests
-    pip install PIL
-    pip install threading
+    pip install json  
+    pip install pathlib  
+    pip install re  
+    pip install glob  
+    pip install shutil  
+    pip install numpy  
+    pip install time  
+    pip install datetime   
+    pip install requests  
+    pip install PIL  
+    pip install threading  
 
 
 
