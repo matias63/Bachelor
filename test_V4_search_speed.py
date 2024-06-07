@@ -65,7 +65,7 @@ def test_search_without_indexing(search_word,test_samples):
 
 
 def main():
-    print("BM Good suffix rule")
+    print("Current algorithm")
     test_search("elf",100)  
     test_search_without_indexing("elf",100)  
     test_search("red",100)

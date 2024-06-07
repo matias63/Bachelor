@@ -37,11 +37,6 @@ class thread(threading.Thread):
         print(str(self.thread_name) +" "+ str(self.thread_ID)); 
 
 
-
-
-
-
-
 script_dir = os.path.dirname(__file__) #<-- absolute dir the script is in
 
 
@@ -85,10 +80,6 @@ def load_bulk():
     return data
 
 
-
-
-
-
 # BUILD single card database - EVERYTHING INCLUDED -  {everything} line 1
 def build_SDB():
     data = load_bulk()
@@ -101,7 +92,8 @@ def build_SDB():
             # library.close()
             json.dump(i,library, indent = 4)
 
-
+# Boyer-Moore Algorithm contributed on GeeksforGeeks contributed by Atul Kumar (www.facebook.com/atul.kr.007)
+# https://www.geeksforgeeks.org/boyer-moore-algorithm-for-pattern-searching/
 # Knuth-Miller-Prath algortihm helper function
 def computeLPSArray(pat, M, lps):
     len = 0 # length of the previous longest prefix suffix
@@ -125,7 +117,8 @@ def computeLPSArray(pat, M, lps):
                 lps[i] = 0
                 i += 1
  
-
+# Boyer-Moore Algorithm contributed on GeeksforGeeks contributed by Atul Kumar (www.facebook.com/atul.kr.007)
+# https://www.geeksforgeeks.org/boyer-moore-algorithm-for-pattern-searching/
 # Knuth-Miller-Prath algortihm (KMP) moded by me
 def KMP_mod(pat, txt,M,lps):
     N = len(txt)
@@ -147,6 +140,9 @@ def KMP_mod(pat, txt,M,lps):
                 i += 1
     return False
 
+
+# Boyer-Moore Algorithm contributed on GeeksforGeeks contributed by Atul Kumar (www.facebook.com/atul.kr.007)
+# https://www.geeksforgeeks.org/boyer-moore-algorithm-for-pattern-searching/
 # Knuth-Miller-Prath algortihm (KMP)
 def KMPSearch(pat, txt):
     M = len(pat)
@@ -180,18 +176,20 @@ def KMPSearch(pat, txt):
     return False
 
 
-
+# KMP Algorithm with bad character heuristic contributed on GeeksforGeeks by Bhavya Jain 
+#https://www.geeksforgeeks.org/python-program-for-kmp-algorithm-for-pattern-searching-2/
 # Bad character Heuristic for Boyer-Moore algorithm
 NO_OF_CHARS = 256
 def badCharHeuristic(string, size):
     badChar = [-1]*NO_OF_CHARS
- 
     # Fill the actual value of last occurrence
     for i in range(size):
         badChar[ord(string[i])] = i
     # return initialized list
     return badChar
- 
+
+# KMP Algorithm with bad character heuristic contributed on GeeksforGeeks by Bhavya Jain 
+#https://www.geeksforgeeks.org/python-program-for-kmp-algorithm-for-pattern-searching-2/
 def Boyer_moore(txt, pat):
     m = len(pat)
     n = len(txt)
@@ -214,6 +212,8 @@ def Boyer_moore(txt, pat):
         return False
 
 
+# Boyer-Moore Algorithm with bad character heuristic good suffix rule contribute on GeeksforGeeks by contributed by sanjeev2552
+# https://www.geeksforgeeks.org/boyer-moore-algorithm-good-suffix-heuristic/
 # preprocessing for strong good suffix rule
 def preprocess_strong_suffix(shift, bpos, pat, m):
 
@@ -247,6 +247,8 @@ def preprocess_strong_suffix(shift, bpos, pat, m):
 		j -= 1
 		bpos[i] = j
 
+# Boyer-Moore Algorithm with bad character heuristic good suffix rule contribute on GeeksforGeeks by contributed by sanjeev2552
+# https://www.geeksforgeeks.org/boyer-moore-algorithm-good-suffix-heuristic/
 # Preprocessing for case 2
 def preprocess_case2(shift, bpos, pat, m):
 	j = bpos[0]
@@ -266,6 +268,8 @@ def preprocess_case2(shift, bpos, pat, m):
 
 '''Search for a pattern in given text using 
 Boyer Moore algorithm with Good suffix rule '''
+# Boyer-Moore Algorithm with bad character heuristic good suffix rule contribute on GeeksforGeeks by contributed by sanjeev2552
+# https://www.geeksforgeeks.org/boyer-moore-algorithm-good-suffix-heuristic/
 def BM_with_good_suffix_rule(text, pat):
 
 	# s is shift of the pattern with respect to text
@@ -301,67 +305,28 @@ def BM_with_good_suffix_rule(text, pat):
 			s += shift[j + 1]
 
 
-
-
-
-
-def qsearch(pstr, text):
-    """
-    Search for a pattern within a text using the Quick Search algorithm.
-
-    Parameters:
-    pstr (str): The pattern string.
-    text (str): The text to search within.
-
-    Returns:
-    int: Index of the found substring in the text, or -1 if not found.
-    """
-    TDl = build_TDl(pstr)
-    Plen = len(pstr)
-    Tlen = len(text)
-    tx = 0  # Text pointer
-
-    while tx + Plen <= Tlen:  # while enough text is still left
-        p = 0  # Pattern string pointer
-        t = tx  # Text pointer
-
-        while p < Plen:
-            if pstr[p] != text[t]:
-                break
-            p += 1
-            t += 1
-
-        if p == Plen:
-            return True  # substring found
-
-        next_index = tx + Plen
-        if next_index < Tlen:
-            tx += TDl[ord(text[next_index])]  # shift to next text location
-        else:
+# Qsearch Algorithm by github user mikolajp2137 https://github.com/Juliavister/AdvancedAlgorithms1/blob/main/Sunday.py
+def sundaySearch(pattern, text):
+    matches = []
+    m = len(pattern)
+    n = len(text)
+    skip_table = {}
+    for i in range(m):
+        skip_table[pattern[i]] = m - i
+    i = 0
+    while i <= n - m:
+        j = 0
+        while j < m and (text[i + j] == pattern[j] or pattern[j] == "?"):
+            j += 1
+        if j == m:
+            return True
+        if i + m >= n:
             break
-    return False  # no substring found
-
-
-def build_TDl(pstr):
-    """
-    Build the TDl array based on the pattern string.
-
-    Parameters:
-    pstr (str): Pattern string.
-
-    Returns:
-    list: TDl array.
-    """
-    ASIZE = 256  # Assuming ASIZE is a constant representing the size of the character set
-    TDl = [0] * ASIZE  # Initialize TDl array with zeros
-    Plen = len(pstr)
-    for i in range(ASIZE):
-        TDl[i] = Plen + 1
-
-    for i, char in enumerate(pstr):
-        TDl[ord(char)] = Plen - i
-    return TDl
-
+        if text[i + m] in skip_table:
+            i += skip_table[text[i + m]]
+        else:
+            i += m + 1
+    return False
 
 # fetch images helper function - Thread_search
 def fetch_pics(url, images):
@@ -421,9 +386,9 @@ def thread_search_before_indexing(search):
             # if KMP_mod(search,entry.name.lower(),M,lps) and entry.name  not in local_cache:     # activate KMP_mod_prperation
             # if search in entry.name.lower() and entry.name  not in local_cache:
             # if Boyer_moore(entry.name.lower(),search) and entry.name  not in local_cache:
-            if BM_with_good_suffix_rule(entry.name.lower(),search) and entry.name  not in local_cache:
+            # if BM_with_good_suffix_rule(entry.name.lower(),search) and entry.name  not in local_cache: 
+            if sundaySearch(search,entry.name.lower()) and entry.name  not in local_cache:
 
-            # if qsearch(search,entry.name.lower()) and entry.name  not in local_cache: 
                 abs_file_path = os.path.join(script_dir, path,entry.name.lower())
                 thread =threading.Thread(target = search_id, args = (entry,local_cache,abs_file_path))
                 thread.start()
@@ -450,9 +415,10 @@ def thread_search(search):
             # if KMPSearch(search,entry.lower()) and entry  not in local_cache:
             # if KMP_mod(search,entry.lower(),M,lps) and entry  not in local_cache: # activate KMP_mod_prperation
             # if search in entry.lower() and entry  not in local_cache:
-            if BM_with_good_suffix_rule(entry.lower(),search) and entry  not in local_cache:
+            # if BM_with_good_suffix_rule(entry.lower(),search) and entry  not in local_cache:
             # if Boyer_moore(entry.lower(),search) and entry  not in local_cache:
-            # if qsearch(search,entry.lower()) and entry  not in local_cache: 
+            if sundaySearch(search,entry.lower()) and entry  not in local_cache:
+
 
                 abs_file_path = os.path.join(script_dir, "name_database",entry+".json")
                 try:
