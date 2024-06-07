@@ -1,7 +1,7 @@
 # Bachelor project READ-ME 
 
 ### CLONE LIBRARY ###
--   git clone https://github.com/matias63/Bachelor
+    - git clone https://github.com/matias63/Bachelor
 
 
 ### INSTALL packages ###
