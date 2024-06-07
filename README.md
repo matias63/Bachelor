@@ -24,7 +24,7 @@
 
 ### SETUP DATABASE ###
 Download example test set and Create database:
-This also shows info about the average text length of the database elements
+$ This also shows info about the average text length of the database elements
     python3 ./ Start_database.py
 
 
