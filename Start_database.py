@@ -25,11 +25,11 @@ def build_SDB():
             json.dump(i, library, indent=4)
 
 def main():
-    print("download example test set (this set may have increased in size since I started the project.)")
+    print("Downloading example test set - It may take a minute (this set may have increased in size since I started the project.)")
     url = 'https://data.scryfall.io/default-cards/default-cards-20240606090554.json'
     scrape(url)
     empty_lib()
-    print("Build database with example test set")
+    print("Building database with example test set. It may take several minutes")
     build_SDB()
     c.find_item_length()
     c.find_item_length_mean()

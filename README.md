@@ -72,3 +72,7 @@
     pip install enum   
     pip install keyboard  
     pip install ast  
+
+### OLD functions part of older versiosn of the database (they do not work without being put in current.py and likely still doesnt work - decrepit) ###
+- Old functions are placed here if someone want to see them.
+    old_unusable_functions_from_current.py
